@@ -67,24 +67,45 @@ class Board{
      * @param depth The number of pieces we are grabbing to move
      * @return Will return false if this move is not valid
      */
-    public boolean move(int[] posFrom, int[] posTo, int depth){
+    public boolean move(int[] startPos, int[] desPos, int depth){
         // START CONDITIONS
         //-----------------
+        TakStack startStack = stacks[startPos[0]][startPos[1]];
+        TakStack desStack = stacks[desPos[0]][desPos[1]];
+
         // are we grabbing a valid number given our board size
         if(depth > SIZE) return false;
+
         // is this move directly up,down,left, or right
-        double xchange = Math.pow(posFrom[0] - posTo[0], 2);
-        double ychange = Math.pow(posFrom[1] - posTo[1], 2);
+        double xchange = Math.pow(startPos[0] - desPos[0], 2);
+        double ychange = Math.pow(startPos[1] - desPos[1], 2);
         if(ychange > 1 ||  xchange > 1) return false;
         if(ychange >= 1 &&  xchange >= 1) return false;
-        // is our stack as large as we would like to grab
-        if(depth > stacks[posFrom[0]][posFrom[1]].size()) return false;
+
+        // are there enough pieces to grab
+        if(depth > startStack.size()) return false;
+
+        // Can this piece move ontop of destination piece
+        TakPiece startTop = startStack.top();
+        TakPiece desTop = desStack.top();
+
+        if(desTop.isCapstone()){return false;} // Nothing we can do about this
+
+        if(startTop.isCapstone()){
+            if(desTop.isWall()){
+                desTop.crush();
+            }
+        } else {
+            if(desTop.isWall()){
+                return false;
+            }
+        }
         //---------------
         // END CONDITIONS
         
         // Valid move - start move operation
         // Add onto our position we would like to move to the difference of what we grab from the postion we move from**
-        stacks[posTo[0]][posTo[1]].add(stacks[posFrom[0]][posFrom[1]].sub(depth));
+        desStack.add(startStack.sub(depth));
 
         return true;
     }

@@ -12,6 +12,10 @@ class TakPiece{
         this.wall = wall;
     }
 
+    public void crush(){
+        this.wall = false;
+    }
+
     public boolean isWhite()  {return white;}
     public boolean isBlack()  {return !white;}
     public boolean isWall()   {return wall;}
