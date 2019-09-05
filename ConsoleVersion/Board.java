@@ -90,11 +90,45 @@ class Board{
     }
 
     public String toString(){
+        //KEY --------
+        // WHITE WALL = !
+        // WHITE ROAD = @
+        // WHITE CAPSTONE = #
+        // BLACK WALL = $
+        // BLACK ROAD = %
+        // BLACK CAPSTONE = &
+        // EMPTY = "blank"
 
         StringBuilder builder = new StringBuilder();
-        
+
+        /*TOP ROW*/ builder.append("\t"); for(int i = 0; i < SIZE; i++){ builder.append(i + "\t");} builder.append("\n");
+        /*REST OF THE ROWS*/ 
+        for(int x = 0; x < SIZE; x++){
+            builder.append(x + "\t"); for(int y = 0; y < SIZE; y++){if()}
+        }
+
 
         //TEMP RETURN
         return builder.toString();
+    }
+
+    private String getPieceString(TakPiece piece){
+        if(piece.isWhite()){
+            if(piece.isCapstone()){
+                return "#";
+            } else if(piece.isWall()){
+                return "!";
+            } else {
+                return "@";
+            }
+        } else {
+            if(piece.isCapstone()){
+                return "&";
+            } else if(piece.isWall()){
+                return "$";
+            } else {
+                return "%";
+            }
+        }
     }
 }

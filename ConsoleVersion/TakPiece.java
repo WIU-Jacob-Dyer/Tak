@@ -12,8 +12,8 @@ class TakPiece{
         this.wall = wall;
     }
 
-    public boolean white()  {return white;}
-    public boolean black()  {return !white;}
-    public boolean wall()   {return wall;}
-    public boolean capstone()   {return capstone;}
+    public boolean isWhite()  {return white;}
+    public boolean isBlack()  {return !white;}
+    public boolean isWall()   {return wall;}
+    public boolean isCapstone()   {return capstone;}
 }
