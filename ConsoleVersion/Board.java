@@ -108,11 +108,11 @@ class Board{
             for(int y = 0; y < SIZE; y++){
                 TakPiece current = stacks[x][y];    
                 if(!current.isEmpty()){
-                    builder.append(getPieceString(current)
+                    builder.append(getPieceString(current));
                 }
-                builder.append("\t")
+                builder.append("\t");
             }
-            builder.append("\n")
+            builder.append("\n");
         }
 
 
