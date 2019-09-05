@@ -1,5 +1,3 @@
-package ConsoleVersion;
-
 class Board{
     // Our stacks will be laid out with x,y = 0,0 at the top left corner EX:
     //        0   1   2   3   4  x
@@ -159,5 +157,15 @@ class Board{
                 return "%";
             }
         }
+    }
+
+    public boolean winningState(){
+
+        //CHECK TOP ROW
+        for(int x = 0; x < SIZE; x++){
+            
+        }
+        // FILLER
+        return true;
     }
 }

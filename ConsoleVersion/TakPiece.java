@@ -1,5 +1,3 @@
-package ConsoleVersion;
-
 class TakPiece{
 
     private boolean white;
