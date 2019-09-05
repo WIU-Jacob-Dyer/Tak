@@ -101,18 +101,18 @@ class Board{
 
         StringBuilder builder = new StringBuilder();
 
-        /*TOP ROW*/ builder.append("\t"); for(int i = 0; i < SIZE; i++){ builder.append(i + "\t");} builder.append("\n");
+        /*TOP ROW*/ builder.append("\t"); for(int i = 0; i < SIZE; i++){ builder.append(i + "\t");} builder.append("\n\n");
         /*REST OF THE ROWS*/ 
         for(int x = 0; x < SIZE; x++){
             builder.append(x + "\t");
             for(int y = 0; y < SIZE; y++){
-                TakPiece current = stacks[x][y];    
+                TakStack current = stacks[x][y];    
                 if(!current.isEmpty()){
-                    builder.append(getPieceString(current));
+                    builder.append(getPieceString(current.top()));
                 }
                 builder.append("\t");
             }
-            builder.append("\n");
+            builder.append("\n\n");
         }
 
 
