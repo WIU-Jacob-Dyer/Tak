@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - TakTheGame",
+            "request": "launch",
+            "mainClass": "TakTheGame",
+            "projectName": "ConsoleVersion_e8d96286"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - TakTheGame",
+            "request": "launch",
+            "mainClass": "ConsoleVersion.TakTheGame"
+        }
+    ]
+}
