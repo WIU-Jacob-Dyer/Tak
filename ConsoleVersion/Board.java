@@ -159,13 +159,30 @@ class Board{
         }
     }
 
-    public boolean winningState(){
+    /**
+     * @return 0 = no winner, 1 = white wins, 2 = black wins
+     */
+    public int winningState(){ return checkTrees(buildTrees()); }
 
-        //CHECK TOP ROW
+    private ArrayList<TrinityTree<TakPiece>> buildTrees(){
+        ArrayList<TrinityTree<TakPiece>> list = new ArrayList<>();
+
+        // Top row -> checking top down
         for(int x = 0; x < SIZE; x++){
-            
+            if(stacks[x][0].size() > 0){
+                TrinityTree tempTree = new TrinityTree<TakPiece>();
+                list.append(treeBuilderTopDown(tempTree));
+            }
         }
-        // FILLER
-        return true;
+
+
+    }
+
+    private void treeBuilderTopDown(TrinityTree<TakPiece> tree, int[] startingPos){
+        
+    }
+
+    private boolean checkTrees(ArrayList<TrinityTree<TakPiece>> trees){
+
     }
 }
