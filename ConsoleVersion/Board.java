@@ -127,7 +127,7 @@ class Board{
         for(int x = 0; x < SIZE; x++){
             builder.append(x + "\t");
             for(int y = 0; y < SIZE; y++){
-                TakStack current = stacks[x][y];    
+                TakStack current = stacks[y][x];    
                 if(!current.isEmpty()){
                     builder.append(getPieceString(current.top()));
                 }
