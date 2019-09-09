@@ -189,30 +189,18 @@ class Board{
         }
 
         // search right left
-        // for(int y = 0; y < SIZE; y++){
-        //     if(!stacks[0][y].isEmpty()){
-        //         int[] startingPos = {0, y};
-        //         int[] previousPos = {-1, -1}; // Bogus points
-        //         TrinityTree<TakPiece> tree = new TrinityTree<>();
-        //         treeBuilderLeftRight(tree, startingPos, previousPos);
-        //     }
+        for(int y = 0; y < SIZE; y++){
+            if(!stacks[0][y].isEmpty()){
+                int[] startingPos = {0, y};
+                int[] previousPos = {-1, -1}; // Bogus points
+                TrinityTree<TakPiece> tree = new TrinityTree<>();
+                treeBuilderLeftRight(tree, startingPos, previousPos);
+            }
 
-        //     if(winner > 0){
-        //         return true;
-        //     }
-        // }
-
-        if(!stacks[0][2].isEmpty()){
-            int[] startingPos = {1, 2};
-            int[] previousPos = {-1, -1}; // Bogus points
-            TrinityTree<TakPiece> tree = new TrinityTree<>();
-            treeBuilderLeftRight(tree, startingPos, previousPos);
+            if(winner > 0){
+                return true;
+            }
         }
-
-        if(winner > 0){
-            return true;
-        }
-
         // no winnner found
         return false;
     }
@@ -281,9 +269,6 @@ class Board{
 
     // MUST FEED A BOGUS VALUE FOR PREVIOUS TO AVOID NULL REF on initial call
     private TrinityTree<TakPiece> treeBuilderLeftRight(TrinityTree<TakPiece> tree, int[] startingPos, int[] previousPos){
-        
-        
-        System.out.println(startingPos[0] + ", " + startingPos[1]);
 
         // Are we at a winning position?
         if(startingPos[0] == (SIZE - 1)){

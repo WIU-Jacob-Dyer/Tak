@@ -1,6 +1,7 @@
 class test{
     public static void main(String[] args){
-        Board board = new Board(5);
+        Board board1 = new Board(5);
+        Board board2 = new Board(5);
         int[][] points = new int[11][2];
 
         points[0] = new int[] {0, 0};
@@ -16,12 +17,36 @@ class test{
         points[10] = new int[] {4, 4};
 
         for (int[] point : points) {
-            board.place(true, false, false, point);
+            board1.place(true, false, false, point);
         }
-        System.out.println(board);
 
-        if(board.determineWinner()){
-            System.out.println(board.getWinner() + " WINS!!!");
+        points[0] = new int[] {0, 0};
+        points[1] = new int[] {1, 0};
+        points[2] = new int[] {2, 0};
+        points[3] = new int[] {2, 1};
+        points[4] = new int[] {2, 2};
+        points[5] = new int[] {1, 2};
+        points[6] = new int[] {1, 3};
+        points[7] = new int[] {1, 4};
+        points[8] = new int[] {2, 4};
+        points[9] = new int[] {3, 4};
+        points[10] = new int[] {4, 4};
+
+        for (int[] point : points) {
+            board2.place(true, false, false, point);
+        }
+
+
+        System.out.println(board1);
+
+        if(board1.determineWinner()){
+            System.out.println(board1.getWinner() + " WINS!!!");
+        }
+
+        System.out.println(board2);
+
+        if(board2.determineWinner()){
+            System.out.println(board2.getWinner() + " WINS!!!");
         }
     }
 }
