@@ -53,16 +53,16 @@ class TrinityTree<E> {
     return new Node<E>(e, parent, left, right, middle);
   }
 
-  // LinkedBinaryTree instance variables
-  /** The root of the binary tree */
+  // instance variables
+  /** The root of the tree */
   protected Node<E> root = null;     // root of the tree
 
-  /** The number of nodes in the binary tree */
+  /** The number of nodes in the tree */
   private int size = 0;              // number of nodes in the tree
 
   // constructor
-  /** Construts an empty binary tree. */
-  public TrinityTree() { }      // constructs an empty binary tree
+  /** Construts an empty tree. */
+  public TrinityTree() { }      // constructs an empty tree
 
   // nonpublic utility
   /**
@@ -161,7 +161,7 @@ class TrinityTree<E> {
    * @throws IllegalStateException if the tree is not empty
    */
   public Position<E> addRoot(E e) throws IllegalStateException {
-    if (size == 0) throw new IllegalStateException("Tree is not empty");
+    if (size != 0) throw new IllegalStateException("Tree is not empty");
     root = createNode(e, null, null, null, null);
     size = 1;
     return root;
@@ -247,9 +247,11 @@ class TrinityTree<E> {
    */
 
   public void attachLeft(TrinityTree<E> toAttach){
-    if(this.root.getLeft() == null && toAttach.root != null){
-      this.root.setLeft(toAttach.root);
-      this.size += toAttach.size;
+    if(root != null){
+      if(this.root.getLeft() == null && toAttach.root != null){
+        this.root.setLeft(toAttach.root);
+        this.size += toAttach.size;
+      }
     }
   }
 
@@ -258,9 +260,11 @@ class TrinityTree<E> {
    */
 
   public void attachRight(TrinityTree<E> toAttach){
-    if(this.root.getRight() == null && toAttach.root != null){
-      this.root.setRight(toAttach.root);
-      this.size += toAttach.size;
+    if(root != null){
+      if(this.root.getRight() == null && toAttach.root != null){
+        this.root.setRight(toAttach.root);
+        this.size += toAttach.size;
+      }
     }
   }
 
@@ -269,9 +273,11 @@ class TrinityTree<E> {
    */
 
   public void attachMiddle(TrinityTree<E> toAttach){
-    if(this.root.getMiddle() == null && toAttach.root != null){
-      this.root.setMiddle(toAttach.root);
-      this.size += toAttach.size;
+    if(root != null){
+      if(this.root.getMiddle() == null && toAttach.root != null){
+        this.root.setMiddle(toAttach.root);
+        this.size += toAttach.size;
+      }
     }
   }
 
