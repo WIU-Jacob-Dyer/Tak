@@ -368,7 +368,7 @@ class Board{
         TakStack fromStack = stacks[fromPoint[0]][fromPoint[1]];
 
         // Check if the position has a piece on it
-        if(toStack.isEmpty()){
+        if(toStack.isEmpty() || fromStack.isEmpty()){
             return false;
         }
 

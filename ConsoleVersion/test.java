@@ -11,7 +11,7 @@ class test{
         points[4] = new int[] {2, 2};
         points[5] = new int[] {2, 1};
         points[6] = new int[] {3, 1};
-        points[7] = new int[] {4, 1};
+        //points[7] = new int[] {4, 1};
         points[8] = new int[] {4, 2};
         points[9] = new int[] {4, 3};
         //points[10] = new int[] {4, 4};
@@ -27,7 +27,7 @@ class test{
         points[4] = new int[] {2, 2};
         points[5] = new int[] {1, 2};
         points[6] = new int[] {1, 3};
-        points[7] = new int[] {1, 4};
+        //points[7] = new int[] {1, 4};
         points[8] = new int[] {2, 4};
         points[9] = new int[] {3, 4};
         //points[10] = new int[] {4, 4};
