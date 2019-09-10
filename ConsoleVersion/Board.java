@@ -62,6 +62,29 @@ class Board{
 
     /**
      * 
+     * @param piece piece to place
+     * @param pos Array containing the position at which a piece is to be placed
+     * @return Will return false if this move is not valid
+     */
+
+    public boolean placeStack(TakStack stack, int[] pos){
+        // START CONDITIONS
+        //----------------
+        // Is the space empty that we are trying to place
+        if(stacks[pos[0]][pos[1]].size() > 0) return false;
+        //----------------
+        // END CONDITIONS
+
+        // Valid - move start operation
+        // Add new piece to the stack
+        stacks[pos[0]][pos[1]].add(stack);
+
+        // RETURN FALSE WHILE NOT IMPLEMENTED
+        return true;
+    }
+
+    /**
+     * 
      * @param posFrom The position we are moving from
      * @param posTo The position we should move the piece to
      * @param depth The number of pieces we are grabbing to move
@@ -188,13 +211,15 @@ class Board{
             }
         }
 
-        // search right left
-        for(int y = 0; y < SIZE; y++){
-            if(!stacks[0][y].isEmpty()){
-                int[] startingPos = {0, y};
+        // search top down on rotated board
+        for(int x = 0; x < SIZE; x++){
+            if(!stacks[x][0].isEmpty()){
+                int[] startingPos = {x, 0};
                 int[] previousPos = {-1, -1}; // Bogus points
                 TrinityTree<TakPiece> tree = new TrinityTree<>();
-                treeBuilderLeftRight(tree, startingPos, previousPos);
+                Board rotatedBoard = this.rotateBoard();
+                rotatedBoard.treeBuilderTopDown(tree, startingPos, previousPos);
+                winner = rotatedBoard.winner;
             }
 
             if(winner > 0){
@@ -267,70 +292,70 @@ class Board{
         return tree;    
     }
 
-    // MUST FEED A BOGUS VALUE FOR PREVIOUS TO AVOID NULL REF on initial call
-    private TrinityTree<TakPiece> treeBuilderLeftRight(TrinityTree<TakPiece> tree, int[] startingPos, int[] previousPos){
+    // // MUST FEED A BOGUS VALUE FOR PREVIOUS TO AVOID NULL REF on initial call
+    // private TrinityTree<TakPiece> treeBuilderLeftRight(TrinityTree<TakPiece> tree, int[] startingPos, int[] previousPos){
 
-        // Are we at a winning position?
-        if(startingPos[0] == (SIZE - 1)){
-            // Did white or black win?
-            if(stacks[startingPos[0]][startingPos[1]].top().isWhite()){
-                winner = 1;
-            } else {
-                winner = 2;
-            }
+    //     // Are we at a winning position?
+    //     if(startingPos[0] == (SIZE - 1)){
+    //         // Did white or black win?
+    //         if(stacks[startingPos[0]][startingPos[1]].top().isWhite()){
+    //             winner = 1;
+    //         } else {
+    //             winner = 2;
+    //         }
 
-            // return our tree because this is certainly a leaf node
-            return tree;
-        }
+    //         // return our tree because this is certainly a leaf node
+    //         return tree;
+    //     }
 
-        int[] up = {startingPos[0], startingPos[1] - 1}; // up 1 formerly RIGHT
-        int[] right = {startingPos[0] + 1, startingPos[1]}; // right 1 formerly LEFT
-        int[] down = {startingPos[0], startingPos[1] + 1}; // down 1 formerly MIDDLE
+    //     int[] up = {startingPos[0], startingPos[1] - 1}; // up 1 formerly RIGHT
+    //     int[] right = {startingPos[0] + 1, startingPos[1]}; // right 1 formerly LEFT
+    //     int[] down = {startingPos[0], startingPos[1] + 1}; // down 1 formerly MIDDLE
 
-        // Going up attach RIGHT
-        // Check for backtracking up
-        if(!(up[0] == previousPos[0] && up[1] == previousPos[1])){
-            // Check if the move will be valid
-            if(isValidAndSimilar(up, startingPos)){
-                // Create new subtree with our up as root
-                TrinityTree<TakPiece> treeToAttach = new TrinityTree<>();
-                treeToAttach.addRoot(stacks[up[0]][up[1]].top());
+    //     // Going up attach RIGHT
+    //     // Check for backtracking up
+    //     if(!(up[0] == previousPos[0] && up[1] == previousPos[1])){
+    //         // Check if the move will be valid
+    //         if(isValidAndSimilar(up, startingPos)){
+    //             // Create new subtree with our up as root
+    //             TrinityTree<TakPiece> treeToAttach = new TrinityTree<>();
+    //             treeToAttach.addRoot(stacks[up[0]][up[1]].top());
 
-                // Attach subtree to right position
-                tree.attachRight(treeBuilderTopDown(treeToAttach, up, startingPos));
-            }  
-        }
+    //             // Attach subtree to right position
+    //             tree.attachRight(treeBuilderTopDown(treeToAttach, up, startingPos));
+    //         }  
+    //     }
         
-        // Goint right attach LEFT
-        // Check for backtracking right
-        if(!(right[0] == previousPos[0] && right[1] == previousPos[1])){
-            // Check if the move will be valid
-            if(isValidAndSimilar(right, startingPos)){
-                // Create new subtree with our right as root
-                TrinityTree<TakPiece> treeToAttach = new TrinityTree<>();
-                treeToAttach.addRoot(stacks[right[0]][right[1]].top());
+    //     // Goint right attach LEFT
+    //     // Check for backtracking right
+    //     if(!(right[0] == previousPos[0] && right[1] == previousPos[1])){
+    //         // Check if the move will be valid
+    //         if(isValidAndSimilar(right, startingPos)){
+    //             // Create new subtree with our right as root
+    //             TrinityTree<TakPiece> treeToAttach = new TrinityTree<>();
+    //             treeToAttach.addRoot(stacks[right[0]][right[1]].top());
 
-                // Attach subtree to left position
-                tree.attachLeft(treeBuilderTopDown(treeToAttach, right, startingPos));
-            }  
-        }
+    //             // Attach subtree to left position
+    //             tree.attachLeft(treeBuilderTopDown(treeToAttach, right, startingPos));
+    //         }  
+    //     }
 
-        // Going down attach middle
-        // Check for backtracking down
-        if(!(down[0] == previousPos[0] && down[1] == previousPos[1])){
-            // Check if the move will be valid
-            if(isValidAndSimilar(down, startingPos)){
-                // Create new subtree with our down as root
-                TrinityTree<TakPiece> treeToAttach = new TrinityTree<>();
-                treeToAttach.addRoot(stacks[down[0]][down[1]].top());
+    //     // Going down attach middle
+    //     // Check for backtracking down
+    //     if(!(down[0] == previousPos[0] && down[1] == previousPos[1])){
+    //         // Check if the move will be valid
+    //         if(isValidAndSimilar(down, startingPos)){
+    //             // Create new subtree with our down as root
+    //             TrinityTree<TakPiece> treeToAttach = new TrinityTree<>();
+    //             treeToAttach.addRoot(stacks[down[0]][down[1]].top());
 
-                // Attach subtree to middle position
-                tree.attachMiddle(treeBuilderTopDown(treeToAttach, down, startingPos));
-            }  
-        }
+    //             // Attach subtree to middle position
+    //             tree.attachMiddle(treeBuilderTopDown(treeToAttach, down, startingPos));
+    //         }  
+    //     }
 
-        return tree;    
-    }
+    //     return tree;    
+    // }
 
     private boolean isValidAndSimilar(int[] toPoint, int[] fromPoint){
 
@@ -358,5 +383,21 @@ class Board{
         }
 
         return true;
+    }
+
+    public Board rotateBoard(){
+        Board temp = new Board(SIZE);
+
+        for(int x = 0; x < SIZE; x++){
+            for(int y = 0; y < SIZE; y++){
+                if(!stacks[x][y].isEmpty()){
+                    // place piece
+                    temp.placeStack(stacks[x][y], new int[] {y, x});
+                }
+            }
+        }
+
+
+        return temp;
     }
 }

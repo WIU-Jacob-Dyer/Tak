@@ -14,7 +14,7 @@ class test{
         points[7] = new int[] {4, 1};
         points[8] = new int[] {4, 2};
         points[9] = new int[] {4, 3};
-        points[10] = new int[] {4, 4};
+        //points[10] = new int[] {4, 4};
 
         for (int[] point : points) {
             board1.place(true, false, false, point);
@@ -30,7 +30,7 @@ class test{
         points[7] = new int[] {1, 4};
         points[8] = new int[] {2, 4};
         points[9] = new int[] {3, 4};
-        points[10] = new int[] {4, 4};
+        //points[10] = new int[] {4, 4};
 
         for (int[] point : points) {
             board2.place(true, false, false, point);

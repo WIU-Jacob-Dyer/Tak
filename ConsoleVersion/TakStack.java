@@ -7,12 +7,22 @@ class TakStack{
         stack = new ArrayList<>();
     }
 
+    public TakStack(ArrayList<TakPiece> stack){
+        this.stack = stack;
+    }
+
     /**
      * 
      * @param toAdd The stack we want to push ontop of our stack
      */
 
-    public void add(ArrayList<TakPiece> toAdd){
+    public void add(TakStack toAdd){
+        for (TakPiece piece : toAdd.stack) {
+            this.stack.add(piece);
+        }
+    }
+
+    private void add(ArrayList<TakPiece> toAdd){
         for (TakPiece piece : toAdd) {
             this.stack.add(piece);
         }
@@ -33,7 +43,7 @@ class TakStack{
      * @return The stack that was removed
      */
 
-    public ArrayList<TakPiece> sub(int depth){
+    public TakStack sub(int depth){
         ArrayList<TakPiece> temp = new ArrayList<>();
         ArrayList<TakPiece> toReturn = new ArrayList<>();
 
@@ -47,7 +57,7 @@ class TakStack{
             toReturn.add(temp.remove(temp.size() - 1));
         }
 
-        return toReturn;
+        return new TakStack(toReturn);
     }
 
     /**
