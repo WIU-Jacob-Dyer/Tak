@@ -9,6 +9,8 @@ class Board{
 
     TakStack stacks[][];
 
+    int winner = 0; // 0 = no winnner, 1 = white wins, 2 = black wins
+
     final int SIZE;
 
     /**
@@ -53,6 +55,29 @@ class Board{
         // Valid - move start operation
         // Add new piece to the stack
         stacks[pos[0]][pos[1]].add(new TakPiece(isWhite, isWall, isCapstone));
+
+        // RETURN FALSE WHILE NOT IMPLEMENTED
+        return true;
+    }
+
+    /**
+     * 
+     * @param piece piece to place
+     * @param pos Array containing the position at which a piece is to be placed
+     * @return Will return false if this move is not valid
+     */
+
+    public boolean placeStack(TakStack stack, int[] pos){
+        // START CONDITIONS
+        //----------------
+        // Is the space empty that we are trying to place
+        if(stacks[pos[0]][pos[1]].size() > 0) return false;
+        //----------------
+        // END CONDITIONS
+
+        // Valid - move start operation
+        // Add new piece to the stack
+        stacks[pos[0]][pos[1]].add(stack);
 
         // RETURN FALSE WHILE NOT IMPLEMENTED
         return true;
@@ -125,7 +150,7 @@ class Board{
         for(int x = 0; x < SIZE; x++){
             builder.append(x + "\t");
             for(int y = 0; y < SIZE; y++){
-                TakStack current = stacks[x][y];    
+                TakStack current = stacks[y][x];    
                 if(!current.isEmpty()){
                     builder.append(getPieceString(current.top()));
                 }
@@ -159,30 +184,220 @@ class Board{
         }
     }
 
-    /**
-     * @return 0 = no winner, 1 = white wins, 2 = black wins
-     */
-    public int winningState(){ return checkTrees(buildTrees()); }
 
-    private ArrayList<TrinityTree<TakPiece>> buildTrees(){
-        ArrayList<TrinityTree<TakPiece>> list = new ArrayList<>();
+    public String getWinner(){
+        if(winner == 0){
+            return "";
+        } else if(winner == 1) {
+            return "WHITE";
+        } else {
+            return "BLACK";
+        }
+    }
 
-        // Top row -> checking top down
+    // ONLY SEARCHES TOP DOWN ATM
+    public boolean determineWinner(){
+        // search top down
         for(int x = 0; x < SIZE; x++){
-            if(stacks[x][0].size() > 0){
-                TrinityTree tempTree = new TrinityTree<TakPiece>();
-                list.append(treeBuilderTopDown(tempTree));
+            if(!stacks[x][0].isEmpty()){
+                int[] startingPos = {x, 0};
+                int[] previousPos = {-1, -1}; // Bogus points
+                TrinityTree<TakPiece> tree = new TrinityTree<>();
+                treeBuilderTopDown(tree, startingPos, previousPos);
+            }
+
+            if(winner > 0){
+                return true;
+            }
+        }
+
+        // search top down on rotated board
+        for(int x = 0; x < SIZE; x++){
+            if(!stacks[x][0].isEmpty()){
+                int[] startingPos = {x, 0};
+                int[] previousPos = {-1, -1}; // Bogus points
+                TrinityTree<TakPiece> tree = new TrinityTree<>();
+                Board rotatedBoard = this.rotateBoard();
+                rotatedBoard.treeBuilderTopDown(tree, startingPos, previousPos);
+                winner = rotatedBoard.winner;
+            }
+
+            if(winner > 0){
+                return true;
+            }
+        }
+        // no winnner found
+        return false;
+    }
+
+    // MUST FEED A BOGUS VALUE FOR PREVIOUS TO AVOID NULL REF on initial call
+    private TrinityTree<TakPiece> treeBuilderTopDown(TrinityTree<TakPiece> tree, int[] startingPos, int[] previousPos){
+        
+        // Are we at a winning position?
+        if(startingPos[1] == (SIZE - 1)){
+            // Did white or black win?
+            if(stacks[startingPos[0]][startingPos[1]].top().isWhite()){
+                winner = 1;
+            } else {
+                winner = 2;
+            }
+
+            // return our tree because this is certainly a leaf node
+            return tree;
+        }
+
+        int[] right = {startingPos[0] + 1, startingPos[1]}; // right 1
+        int[] left = {startingPos[0] - 1, startingPos[1]}; // left 1
+        int[] middle = {startingPos[0], startingPos[1] + 1}; // down 1
+
+        // Check for backtracking right
+        if(!(right[0] == previousPos[0] && right[1] == previousPos[1])){
+            // Check if the move will be valid
+            if(isValidAndSimilar(right, startingPos)){
+                // Create new subtree with our right as root
+                TrinityTree<TakPiece> treeToAttach = new TrinityTree<>();
+                treeToAttach.addRoot(stacks[right[0]][right[1]].top());
+
+                // Attach subtree to right position
+                tree.attachRight(treeBuilderTopDown(treeToAttach, right, startingPos));
+            }  
+        }
+        
+        // Check for backtracking left
+        if(!(left[0] == previousPos[0] && left[1] == previousPos[1])){
+            // Check if the move will be valid
+            if(isValidAndSimilar(left, startingPos)){
+                // Create new subtree with our left as root
+                TrinityTree<TakPiece> treeToAttach = new TrinityTree<>();
+                treeToAttach.addRoot(stacks[left[0]][left[1]].top());
+
+                // Attach subtree to left position
+                tree.attachLeft(treeBuilderTopDown(treeToAttach, left, startingPos));
+            }  
+        }
+
+        // Check for backtracking middle
+        if(!(middle[0] == previousPos[0] && middle[1] == previousPos[1])){
+            // Check if the move will be valid
+            if(isValidAndSimilar(middle, startingPos)){
+                // Create new subtree with our middle as root
+                TrinityTree<TakPiece> treeToAttach = new TrinityTree<>();
+                treeToAttach.addRoot(stacks[middle[0]][middle[1]].top());
+
+                // Attach subtree to middle position
+                tree.attachMiddle(treeBuilderTopDown(treeToAttach, middle, startingPos));
+            }  
+        }
+
+        return tree;    
+    }
+
+    // // MUST FEED A BOGUS VALUE FOR PREVIOUS TO AVOID NULL REF on initial call
+    // private TrinityTree<TakPiece> treeBuilderLeftRight(TrinityTree<TakPiece> tree, int[] startingPos, int[] previousPos){
+
+    //     // Are we at a winning position?
+    //     if(startingPos[0] == (SIZE - 1)){
+    //         // Did white or black win?
+    //         if(stacks[startingPos[0]][startingPos[1]].top().isWhite()){
+    //             winner = 1;
+    //         } else {
+    //             winner = 2;
+    //         }
+
+    //         // return our tree because this is certainly a leaf node
+    //         return tree;
+    //     }
+
+    //     int[] up = {startingPos[0], startingPos[1] - 1}; // up 1 formerly RIGHT
+    //     int[] right = {startingPos[0] + 1, startingPos[1]}; // right 1 formerly LEFT
+    //     int[] down = {startingPos[0], startingPos[1] + 1}; // down 1 formerly MIDDLE
+
+    //     // Going up attach RIGHT
+    //     // Check for backtracking up
+    //     if(!(up[0] == previousPos[0] && up[1] == previousPos[1])){
+    //         // Check if the move will be valid
+    //         if(isValidAndSimilar(up, startingPos)){
+    //             // Create new subtree with our up as root
+    //             TrinityTree<TakPiece> treeToAttach = new TrinityTree<>();
+    //             treeToAttach.addRoot(stacks[up[0]][up[1]].top());
+
+    //             // Attach subtree to right position
+    //             tree.attachRight(treeBuilderTopDown(treeToAttach, up, startingPos));
+    //         }  
+    //     }
+        
+    //     // Goint right attach LEFT
+    //     // Check for backtracking right
+    //     if(!(right[0] == previousPos[0] && right[1] == previousPos[1])){
+    //         // Check if the move will be valid
+    //         if(isValidAndSimilar(right, startingPos)){
+    //             // Create new subtree with our right as root
+    //             TrinityTree<TakPiece> treeToAttach = new TrinityTree<>();
+    //             treeToAttach.addRoot(stacks[right[0]][right[1]].top());
+
+    //             // Attach subtree to left position
+    //             tree.attachLeft(treeBuilderTopDown(treeToAttach, right, startingPos));
+    //         }  
+    //     }
+
+    //     // Going down attach middle
+    //     // Check for backtracking down
+    //     if(!(down[0] == previousPos[0] && down[1] == previousPos[1])){
+    //         // Check if the move will be valid
+    //         if(isValidAndSimilar(down, startingPos)){
+    //             // Create new subtree with our down as root
+    //             TrinityTree<TakPiece> treeToAttach = new TrinityTree<>();
+    //             treeToAttach.addRoot(stacks[down[0]][down[1]].top());
+
+    //             // Attach subtree to middle position
+    //             tree.attachMiddle(treeBuilderTopDown(treeToAttach, down, startingPos));
+    //         }  
+    //     }
+
+    //     return tree;    
+    // }
+
+    private boolean isValidAndSimilar(int[] toPoint, int[] fromPoint){
+
+        // Check that our new point is on the board
+        if(toPoint[0] < 0 || toPoint[0] > (SIZE - 1) || toPoint[1] < 0 || toPoint[1] > (SIZE - 1)){
+            return false;
+        }
+
+        TakStack toStack = stacks[toPoint[0]][toPoint[1]];
+        TakStack fromStack = stacks[fromPoint[0]][fromPoint[1]];
+
+        // Check if the position has a piece on it
+        if(toStack.isEmpty()){
+            return false;
+        }
+
+        // Chack if the piece is a road
+        if(!toStack.top().isRoad()){
+            return false;
+        }
+
+        // check if road is of the correct color
+        if(fromStack.top().isWhite() != toStack.top().isWhite()){
+            return false;
+        }
+
+        return true;
+    }
+
+    public Board rotateBoard(){
+        Board temp = new Board(SIZE);
+
+        for(int x = 0; x < SIZE; x++){
+            for(int y = 0; y < SIZE; y++){
+                if(!stacks[x][y].isEmpty()){
+                    // place piece
+                    temp.placeStack(stacks[x][y], new int[] {y, x});
+                }
             }
         }
 
 
-    }
-
-    private void treeBuilderTopDown(TrinityTree<TakPiece> tree, int[] startingPos){
-        
-    }
-
-    private boolean checkTrees(ArrayList<TrinityTree<TakPiece>> trees){
-
+        return temp;
     }
 }

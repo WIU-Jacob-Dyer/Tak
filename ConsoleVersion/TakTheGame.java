@@ -13,6 +13,9 @@ class TakTheGame {
         boolean quit = false;
         while(!quit){
             quit = mainMenu();
+            if(board.determineWinner()){
+                System.out.println(board.getWinner() + " WINS!!!!!!");
+            }
         }
     }
 
