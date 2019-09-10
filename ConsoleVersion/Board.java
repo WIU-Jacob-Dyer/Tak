@@ -13,11 +13,12 @@ class Board{
     //  3     O   O   O   O   O
     //  y
 
-    TakStack stacks[][];
+    private TakStack stacks[][];
 
-    int winner = 0; // 0 = no winnner, 1 = white wins, 2 = black wins
+    private boolean whiteWins = false;
+    private boolean blackWins = false;
 
-    final int SIZE;
+    private final int SIZE;
 
     /**
      * 
@@ -139,6 +140,8 @@ class Board{
         return true;
     }
 
+   
+
     public String toString(){
         //KEY --------
         // WHITE WALL = !
@@ -192,12 +195,14 @@ class Board{
 
 
     public String getWinner(){
-        if(winner == 0){
-            return "";
-        } else if(winner == 1) {
+        if(whiteWins && blackWins){
+            return "DRAW";
+        } else if(whiteWins){
             return "WHITE";
-        } else {
+        } else if(blackWins){
             return "BLACK";
+        } else {
+            return "NONE";
         }
     }
 
@@ -207,13 +212,13 @@ class Board{
         for(int x = 0; x < SIZE; x++){
             if(!stacks[x][0].isEmpty()){
                 Point startingPoint = new Point(x, 0);
-                ArrayList<Point> visited = ArrayList<Point>();
-                visited.append(startingPoint);
+                ArrayList<Point> visited = new ArrayList<>();
+                visited.add(startingPoint);
                 TakTree<TakPiece> tree = new TakTree<>();
-                treeBuilderTopDown(tree, startingPoint, visited);
+                treeBuilder(tree, startingPoint, visited);
             }
 
-            if(winner > 0){
+            if(whiteWins || blackWins){
                 return true;
             }
         }
@@ -223,44 +228,80 @@ class Board{
     }
 
     // MUST FEED A BOGUS VALUE FOR PREVIOUS TO AVOID NULL REF on initial call
-    private TakTree<TakPiece> treeBuilderTopDown(TakTree<TakPiece> tree, Point startingPoint, ArrayList<Point> visited){
+    private TakTree<TakPiece> treeBuilder(TakTree<TakPiece> tree, Point startingPoint, ArrayList<Point> visited){
         
         // JUST FINISHED ADDING NEW POINT CLASS
 
         // Are we at a winning position?
-        if(containXEnd(visited) && containsXStart(visited) || containYStart(visited) && containYEnd()){
+        if(containsWinningPath(visited)){
             // Did white or black win?
             if(stacks[startingPoint.x][startingPoint.y].top().isWhite()){
-                winner = 1;
+                whiteWins = true;
             } else {
-                winner = 2;
+                blackWins = true;
             }
 
             // return our tree because this is certainly a leaf node
             return tree;
         }
 
-        int[] right = {startingPos[0] + 1, startingPos[1]}; // right 1
-        int[] left = {startingPos[0] - 1, startingPos[1]}; // left 1
-        int[] middle = {startingPos[0], startingPos[1] + 1}; // down 1
+        Point right = new Point(startingPoint.x + 1, startingPoint.y);
+        // Point right = new Point(startingPoint.x + 1, startingPoint.y);
+        // Point right = new Point(startingPoint.x + 1, startingPoint.y);
+        // Point right = new Point(startingPoint.x + 1, startingPoint.y);
+
 
         // Check for backtracking right
-        if(!(right[0] == previousPos[0] && right[1] == previousPos[1])){
+        if(isValidAndSimilar(right, startingPoint) && visitedContains(visited, right)){
             // Check if the move will be valid
-            if(isValidAndSimilar(right, startingPos)){
-                // Create new subtree with our right as root
-                TakTree<TakPiece> treeToAttach = new TakTree<>();
-                treeToAttach.addRoot(stacks[right[0]][right[1]].top());
-
-                // Attach subtree to right position
-                tree.attachRight(treeBuilderTopDown(treeToAttach, right, startingPos));
-            }  
+            // Create new subtree with our right as root
+            TakTree<TakPiece> treeToAttach = new TakTree<>();
+            treeToAttach.addRoot(stacks[right.x][right.y].top());
+            // Attach subtree to right position
+            tree.attachRight(treeBuilder(treeToAttach, startingPoint, visited));
         }
 
-        return tree;    
+        return tree;
     }
 
-    private boolean arrayHasPoint(ArrayList<Point> points, Point toCheck){
+    private boolean containsWinningPath(ArrayList<Point> points){
+
+        boolean startFoundY = false;
+        boolean endFoundY = false;
+        boolean startFoundX = false;
+        boolean endFoundX = false;
+
+        //Check top down
+        for (Point point : points) {
+            if(point.x == 0){
+                startFoundX = true;
+            }
+
+            if(point.x == SIZE - 1){
+                endFoundX = true;
+            }
+
+            if(point.y == 0){
+                startFoundY = true;
+            }
+
+            if(point.y == SIZE - 1){
+                endFoundY = true;
+            }
+
+            if(startFoundX && endFoundX){
+                return true;
+            }
+
+            if(startFoundY && endFoundY){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean visitedContains(ArrayList<Point> points, Point toCheck){
         for (Point point : points) {
             if(point.equals(toCheck)){
                 return true;
@@ -270,15 +311,15 @@ class Board{
         return false;
     }
 
-    private boolean isValidAndSimilar(int[] toPoint, int[] fromPoint){
+    private boolean isValidAndSimilar(Point toPoint, Point fromPoint){
 
         // Check that our new point is on the board
-        if(toPoint[0] < 0 || toPoint[0] > (SIZE - 1) || toPoint[1] < 0 || toPoint[1] > (SIZE - 1)){
+        if(toPoint.x < 0 || toPoint.x > (SIZE - 1) || toPoint.y < 0 || toPoint.y > (SIZE - 1)){
             return false;
         }
 
-        TakStack toStack = stacks[toPoint[0]][toPoint[1]];
-        TakStack fromStack = stacks[fromPoint[0]][fromPoint[1]];
+        TakStack toStack = stacks[toPoint.x][toPoint.y];
+        TakStack fromStack = stacks[fromPoint.x][fromPoint.y];
 
         // Check if the position has a piece on it
         if(toStack.isEmpty() || fromStack.isEmpty()){
@@ -298,19 +339,7 @@ class Board{
         return true;
     }
 
-    public Board rotateBoard(){
-        Board temp = new Board(SIZE);
-
-        for(int x = 0; x < SIZE; x++){
-            for(int y = 0; y < SIZE; y++){
-                if(!stacks[x][y].isEmpty()){
-                    // place piece
-                    temp.placeStack(stacks[x][y], new int[] {y, x});
-                }
-            }
-        }
-
-
-        return temp;
+    public TakPiece getTop(Point p){
+        return stacks[p.x][p.y].top();
     }
 }
