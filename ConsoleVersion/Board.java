@@ -275,7 +275,7 @@ class Board{
 
 
         // Check for backtracking right
-        if(isValidAndSimilar(right, startingPoint) && visitedContains(visited, right)){
+        if(isValidAndSimilar(right, startingPoint) && !visitedContains(visited, right)){
             // Create new subtree with our right as root
             TakTree<TakPiece> treeToAttach = new TakTree<>();
             treeToAttach.addRoot(getTop(right));
@@ -286,7 +286,7 @@ class Board{
         }
 
         // Try to build left subtree
-        if(isValidAndSimilar(left, startingPoint) && visitedContains(visited, left)){
+        if(isValidAndSimilar(left, startingPoint) && !visitedContains(visited, left)){
             // Create new subtree with our right as root
             TakTree<TakPiece> treeToAttach = new TakTree<>();
             treeToAttach.addRoot(getTop(left));
@@ -297,7 +297,7 @@ class Board{
         }
 
         // Try to build up subtree
-        if(isValidAndSimilar(up, startingPoint) && visitedContains(visited, up)){
+        if(isValidAndSimilar(up, startingPoint) && !visitedContains(visited, up)){
             // Create new subtree with our right as root
             TakTree<TakPiece> treeToAttach = new TakTree<>();
             treeToAttach.addRoot(getTop(up));
@@ -308,7 +308,7 @@ class Board{
         }
 
         // Try to build down subtree
-        if(isValidAndSimilar(down, startingPoint) && visitedContains(visited, down)){
+        if(isValidAndSimilar(down, startingPoint) && !visitedContains(visited, down)){
             // Create new subtree with our right as root
             TakTree<TakPiece> treeToAttach = new TakTree<>();
             treeToAttach.addRoot(getTop(down));
