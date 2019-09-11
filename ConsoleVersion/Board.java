@@ -223,7 +223,7 @@ class Board{
                 visited.add(startingPoint);
                 TakTree<TakPiece> tree = new TakTree<>();
                 tree.addRoot(getTop(startingPoint));
-                System.out.println(treeBuilder(tree, startingPoint, visited).size());
+                treeBuilder(tree, startingPoint, visited);
             }
 
             if(whiteWins && blackWins){ // Only exit if we have found that both win
@@ -238,7 +238,7 @@ class Board{
                 visited.add(startingPoint);
                 TakTree<TakPiece> tree = new TakTree<>();
                 tree.addRoot(getTop(startingPoint));
-                System.out.println(treeBuilder(tree, startingPoint, visited).size());
+                treeBuilder(tree, startingPoint, visited);
             }
 
             if(whiteWins && blackWins){ // Only exit if we have found that both win
