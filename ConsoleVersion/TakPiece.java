@@ -13,7 +13,7 @@ class TakPiece{
             this.wall = true;
             this.road = true;
         } else {
-            this.capstone = true;
+            this.capstone = false;
             this.wall = wall;
             this.road = !wall;
         }

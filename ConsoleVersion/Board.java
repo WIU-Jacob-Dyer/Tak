@@ -51,20 +51,24 @@ class Board{
      * @return Will return false if this move is not valid
      */
 
-    public boolean place(boolean isWhite, boolean isWall, boolean isCapstone, int[] pos){
+    public boolean place(boolean isWhite, boolean isWall, boolean isCapstone, Point point){
         // START CONDITIONS
         //----------------
         // Is the space empty that we are trying to place
-        if(stacks[pos[0]][pos[1]].size() > 0) return false;
+        if(getStack(point).size() > 0) return false;
         //----------------
         // END CONDITIONS
 
         // Valid - move start operation
         // Add new piece to the stack
-        stacks[pos[0]][pos[1]].add(new TakPiece(isWhite, isWall, isCapstone));
+        getStack(point).add(new TakPiece(isWhite, isWall, isCapstone));
 
-        // RETURN FALSE WHILE NOT IMPLEMENTED
         return true;
+    }
+
+    // FOR TESTING ONYL ******************
+    public void testPiece(Point p){
+        getStack(p).add(new TakPiece(true, false, false));
     }
 
     /**
@@ -139,8 +143,6 @@ class Board{
 
         return true;
     }
-
-   
 
     public String toString(){
         //KEY --------
