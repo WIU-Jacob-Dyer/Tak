@@ -196,17 +196,24 @@ class Board{
 
     public String getWinner(){
         if(whiteWins && blackWins){
-            return "DRAW";
+            return "ITS A DRAW";
         } else if(whiteWins){
-            return "WHITE";
+            return "WHITE WINS";
         } else if(blackWins){
-            return "BLACK";
+            return "BLACK WINS";
         } else {
-            return "NONE";
+            return "NO WINNER";
         }
     }
 
-    // ONLY SEARCHES TOP DOWN ATM
+    public TakPiece getTop(Point p){
+        return stacks[p.x][p.y].top();
+    }
+
+    public TakStack getStack(Point p){
+        return stacks[p.x][p.y];
+    }
+    
     public boolean determineWinner(){
         // search top down
         for(int x = 0; x < SIZE; x++){
@@ -215,16 +222,32 @@ class Board{
                 ArrayList<Point> visited = new ArrayList<>();
                 visited.add(startingPoint);
                 TakTree<TakPiece> tree = new TakTree<>();
-                treeBuilder(tree, startingPoint, visited);
+                tree.addRoot(getTop(startingPoint));
+                System.out.println(treeBuilder(tree, startingPoint, visited).size());
             }
 
-            if(whiteWins || blackWins){
+            if(whiteWins && blackWins){ // Only exit if we have found that both win
                 return true;
             }
         }
 
-        // no winnner found
-        return false;
+        for(int y = 1; y < SIZE; y++){
+            if(!stacks[0][y].isEmpty()){
+                Point startingPoint = new Point(0, y);
+                ArrayList<Point> visited = new ArrayList<>();
+                visited.add(startingPoint);
+                TakTree<TakPiece> tree = new TakTree<>();
+                tree.addRoot(getTop(startingPoint));
+                System.out.println(treeBuilder(tree, startingPoint, visited).size());
+            }
+
+            if(whiteWins && blackWins){ // Only exit if we have found that both win
+                return true;
+            }
+        }
+
+        // did we find a winner?
+        return whiteWins || blackWins;
     }
 
     // MUST FEED A BOGUS VALUE FOR PREVIOUS TO AVOID NULL REF on initial call
@@ -235,7 +258,7 @@ class Board{
         // Are we at a winning position?
         if(containsWinningPath(visited)){
             // Did white or black win?
-            if(stacks[startingPoint.x][startingPoint.y].top().isWhite()){
+            if(getTop(startingPoint).isWhite()){
                 whiteWins = true;
             } else {
                 blackWins = true;
@@ -246,9 +269,9 @@ class Board{
         }
 
         Point right = new Point(startingPoint.x + 1, startingPoint.y);
-        // Point right = new Point(startingPoint.x + 1, startingPoint.y);
-        // Point right = new Point(startingPoint.x + 1, startingPoint.y);
-        // Point right = new Point(startingPoint.x + 1, startingPoint.y);
+        Point left = new Point(startingPoint.x - 1, startingPoint.y);
+        Point up = new Point(startingPoint.x, startingPoint.y - 1);
+        Point down = new Point(startingPoint.x, startingPoint.y + 1);
 
 
         // Check for backtracking right
@@ -256,9 +279,39 @@ class Board{
             // Check if the move will be valid
             // Create new subtree with our right as root
             TakTree<TakPiece> treeToAttach = new TakTree<>();
-            treeToAttach.addRoot(stacks[right.x][right.y].top());
+            treeToAttach.addRoot(getTop(right));
             // Attach subtree to right position
             tree.attachRight(treeBuilder(treeToAttach, startingPoint, visited));
+        }
+
+        // Try to build left subtree
+        if(isValidAndSimilar(left, startingPoint) && visitedContains(visited, left)){
+            // Check if the move will be valid
+            // Create new subtree with our right as root
+            TakTree<TakPiece> treeToAttach = new TakTree<>();
+            treeToAttach.addRoot(getTop(left));
+            // Attach subtree to right position
+            tree.attachLeft(treeBuilder(treeToAttach, startingPoint, visited));
+        }
+
+        // Try to build up subtree
+        if(isValidAndSimilar(up, startingPoint) && visitedContains(visited, up)){
+            // Check if the move will be valid
+            // Create new subtree with our right as root
+            TakTree<TakPiece> treeToAttach = new TakTree<>();
+            treeToAttach.addRoot(getTop(up));
+            // Attach subtree to right position
+            tree.attachUp(treeBuilder(treeToAttach, startingPoint, visited));
+        }
+
+        // Try to build down subtree
+        if(isValidAndSimilar(down, startingPoint) && visitedContains(visited, down)){
+            // Check if the move will be valid
+            // Create new subtree with our right as root
+            TakTree<TakPiece> treeToAttach = new TakTree<>();
+            treeToAttach.addRoot(getTop(down));
+            // Attach subtree to right position
+            tree.attachDown(treeBuilder(treeToAttach, startingPoint, visited));
         }
 
         return tree;
@@ -318,8 +371,8 @@ class Board{
             return false;
         }
 
-        TakStack toStack = stacks[toPoint.x][toPoint.y];
-        TakStack fromStack = stacks[fromPoint.x][fromPoint.y];
+        TakStack toStack = getStack(toPoint);
+        TakStack fromStack = getStack(fromPoint);
 
         // Check if the position has a piece on it
         if(toStack.isEmpty() || fromStack.isEmpty()){
@@ -337,9 +390,5 @@ class Board{
         }
 
         return true;
-    }
-
-    public TakPiece getTop(Point p){
-        return stacks[p.x][p.y].top();
     }
 }

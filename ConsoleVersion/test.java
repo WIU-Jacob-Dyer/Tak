@@ -36,18 +36,14 @@ class test{
             board2.place(true, false, false, point);
         }
 
-
+        System.out.println(board1.getTop(new Point(0 ,0)).isRoad());
         System.out.println(board1);
-        System.out.println(board2.getTop(new Point(0,0)).isCapstone());
 
-        if(board1.determineWinner()){
-            System.out.println(board1.getWinner() + " WINS!!!");
-        }
+        board1.determineWinner();
+        System.out.println(board1.getWinner());
 
         System.out.println(board2);
 
-        if(board2.determineWinner()){
-            System.out.println(board2.getWinner() + " WINS!!!");
-        }
+        System.out.println(board2.getWinner());
     }
 }

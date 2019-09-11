@@ -9,4 +9,8 @@ class Point{
     public boolean equals(Point toCheck){
         return toCheck.x == x && toCheck.y == y;
     }
+
+    public String toString(){
+        return "{ " + x + ", " + y + "} ";
+    }
 }
