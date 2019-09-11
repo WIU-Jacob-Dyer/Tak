@@ -276,40 +276,44 @@ class Board{
 
         // Check for backtracking right
         if(isValidAndSimilar(right, startingPoint) && visitedContains(visited, right)){
-            // Check if the move will be valid
             // Create new subtree with our right as root
             TakTree<TakPiece> treeToAttach = new TakTree<>();
             treeToAttach.addRoot(getTop(right));
+            //Add this position to the visited array
+            visited.add(right);
             // Attach subtree to right position
             tree.attachRight(treeBuilder(treeToAttach, startingPoint, visited));
         }
 
         // Try to build left subtree
         if(isValidAndSimilar(left, startingPoint) && visitedContains(visited, left)){
-            // Check if the move will be valid
             // Create new subtree with our right as root
             TakTree<TakPiece> treeToAttach = new TakTree<>();
             treeToAttach.addRoot(getTop(left));
+            //Add this position to the visited array
+            visited.add(left);
             // Attach subtree to right position
             tree.attachLeft(treeBuilder(treeToAttach, startingPoint, visited));
         }
 
         // Try to build up subtree
         if(isValidAndSimilar(up, startingPoint) && visitedContains(visited, up)){
-            // Check if the move will be valid
             // Create new subtree with our right as root
             TakTree<TakPiece> treeToAttach = new TakTree<>();
             treeToAttach.addRoot(getTop(up));
+            //Add this position to the visited array
+            visited.add(up);
             // Attach subtree to right position
             tree.attachUp(treeBuilder(treeToAttach, startingPoint, visited));
         }
 
         // Try to build down subtree
         if(isValidAndSimilar(down, startingPoint) && visitedContains(visited, down)){
-            // Check if the move will be valid
             // Create new subtree with our right as root
             TakTree<TakPiece> treeToAttach = new TakTree<>();
             treeToAttach.addRoot(getTop(down));
+            //Add this position to the visited array
+            visited.add(down);
             // Attach subtree to right position
             tree.attachDown(treeBuilder(treeToAttach, startingPoint, visited));
         }
