@@ -282,7 +282,7 @@ class Board{
             //Add this position to the visited array
             visited.add(right);
             // Attach subtree to right position
-            tree.attachRight(treeBuilder(treeToAttach, startingPoint, visited));
+            tree.attachRight(treeBuilder(treeToAttach, right, visited));
         }
 
         // Try to build left subtree
@@ -293,7 +293,7 @@ class Board{
             //Add this position to the visited array
             visited.add(left);
             // Attach subtree to right position
-            tree.attachLeft(treeBuilder(treeToAttach, startingPoint, visited));
+            tree.attachLeft(treeBuilder(treeToAttach, left, visited));
         }
 
         // Try to build up subtree
@@ -304,18 +304,19 @@ class Board{
             //Add this position to the visited array
             visited.add(up);
             // Attach subtree to right position
-            tree.attachUp(treeBuilder(treeToAttach, startingPoint, visited));
+            tree.attachUp(treeBuilder(treeToAttach, up, visited));
         }
 
         // Try to build down subtree
         if(isValidAndSimilar(down, startingPoint) && !visitedContains(visited, down)){
+
             // Create new subtree with our right as root
             TakTree<TakPiece> treeToAttach = new TakTree<>();
             treeToAttach.addRoot(getTop(down));
             //Add this position to the visited array
             visited.add(down);
             // Attach subtree to right position
-            tree.attachDown(treeBuilder(treeToAttach, startingPoint, visited));
+            tree.attachDown(treeBuilder(treeToAttach, down, visited));
         }
 
         return tree;
