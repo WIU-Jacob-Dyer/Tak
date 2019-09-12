@@ -78,7 +78,7 @@ class TakTheGame {
         System.out.print("Enter position (x y): ");
         int pos[] = {scanner.nextInt(), scanner.nextInt()};
 
-        board.place(isWhite, isWall, isCapstone, pos);
+        //board.place(isWhite, isWall, isCapstone, pos);
 
         //UNDER CONSTRUCTION
     }

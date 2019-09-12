@@ -22,11 +22,11 @@ class TakStack{
         }
     }
 
-    private void add(ArrayList<TakPiece> toAdd){
-        for (TakPiece piece : toAdd) {
-            this.stack.add(piece);
-        }
-    }
+    // private void add(ArrayList<TakPiece> toAdd){
+    //     for (TakPiece piece : toAdd) {
+    //         this.stack.add(piece);
+    //     }
+    // }
 
     /**
      * 
