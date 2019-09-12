@@ -25,10 +25,28 @@ class BOGOAI{
     }
 
     private void placePiece(){
+        boolean piecePlaced = false;
+        if(boardIsNOTFull()){
 
+        } else {
+            movePiece();
+        }
+        
     }
 
     private void movePiece(){
+
+    }
+
+    private boolean boardIsNOTFull(){
+        
+    }
+
+    private ArrayList<Point> emptySpots(){
+
+    }
+
+    private ArrayList<Point> spotsIOwn(){
 
     }
 }
