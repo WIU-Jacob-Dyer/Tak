@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 class test{
     public static void main(String[] args){
         Board board = new Board(6);
@@ -16,6 +14,8 @@ class test{
         board.testPiece(new Point(4,3));
         board.testPiece(new Point(4,4));
         board.testPiece(new Point(4,5));
+
+        board.move(new Point(3, 1), new Point(3,0), 1);
 
         System.out.println(board);
         board.determineWinner();

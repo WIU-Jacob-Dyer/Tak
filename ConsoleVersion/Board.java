@@ -78,17 +78,17 @@ class Board{
      * @return Will return false if this move is not valid
      */
 
-    public boolean placeStack(TakStack stack, int[] pos){
+    public boolean placeStack(TakStack stack, Point p){
         // START CONDITIONS
         //----------------
         // Is the space empty that we are trying to place
-        if(stacks[pos[0]][pos[1]].size() > 0) return false;
+        if(stacks[p.x][p.y].size() > 0) return false;
         //----------------
         // END CONDITIONS
 
         // Valid - move start operation
         // Add new piece to the stack
-        stacks[pos[0]][pos[1]].add(stack);
+        stacks[p.x][p.y].add(stack);
 
         // RETURN FALSE WHILE NOT IMPLEMENTED
         return true;
@@ -101,37 +101,40 @@ class Board{
      * @param depth The number of pieces we are grabbing to move
      * @return Will return false if this move is not valid
      */
-    public boolean move(int[] startPos, int[] desPos, int depth){
+    public boolean move(Point startingP, Point desP, int depth){
         // START CONDITIONS
         //-----------------
-        TakStack startStack = stacks[startPos[0]][startPos[1]];
-        TakStack desStack = stacks[desPos[0]][desPos[1]];
+        TakStack startStack = stacks[startingP.x][startingP.y];
+        TakStack desStack = stacks[desP.x][desP.y];
 
         // are we grabbing a valid number given our board size
         if(depth > SIZE) return false;
 
         // is this move directly up,down,left, or right
-        double xchange = Math.pow(startPos[0] - desPos[0], 2);
-        double ychange = Math.pow(startPos[1] - desPos[1], 2);
+        double xchange = Math.pow(startingP.x - desP.x, 2);
+        double ychange = Math.pow(startingP.y - desP.y, 2);
         if(ychange > 1 ||  xchange > 1) return false;
         if(ychange >= 1 &&  xchange >= 1) return false;
 
         // are there enough pieces to grab
         if(depth > startStack.size()) return false;
 
-        // Can this piece move ontop of destination piece
-        TakPiece startTop = startStack.top();
-        TakPiece desTop = desStack.top();
+        // Is the target des empty
+        if(!desStack.isEmpty()){
+            // Can this piece move ontop of destination piece
+            TakPiece startTop = startStack.top();
+            TakPiece desTop = desStack.top();
 
-        if(desTop.isCapstone()){return false;} // Nothing we can do about this
+            if(desTop.isCapstone()){return false;} // Nothing we can do about this
 
-        if(startTop.isCapstone()){
-            if(desTop.isWall()){
-                desTop.crush();
-            }
-        } else {
-            if(desTop.isWall()){
-                return false;
+            if(startTop.isCapstone()){
+                if(desTop.isWall()){
+                    desTop.crush();
+                }
+            } else {
+                if(desTop.isWall()){
+                    return false;
+                }
             }
         }
         //---------------
