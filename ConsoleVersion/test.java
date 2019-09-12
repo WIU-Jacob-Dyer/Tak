@@ -1,24 +1,21 @@
 class test{
     public static void main(String[] args){
-        Board board = new Board(6);
+
+        final int SIZE = 6;
+
+        for(int i = 0; i < 10000; i++){
+            Board board = new Board(SIZE);
         
-        board.testPiece(new Point(0,0));
-        board.testPiece(new Point(0,1));
-        board.testPiece(new Point(0,2));
-        board.testPiece(new Point(1,2));
-        board.testPiece(new Point(2,2));
-        board.testPiece(new Point(2,1));
-        board.testPiece(new Point(3,1));
-        board.testPiece(new Point(4,1));
-        board.testPiece(new Point(4,2));
-        board.testPiece(new Point(4,3));
-        board.testPiece(new Point(4,4));
-        board.testPiece(new Point(4,5));
+            for(int j = 0; j < 20; j++){
+                int x = (int)Math.floor(Math.random() * SIZE);
+                int y = (int)Math.floor(Math.random() * SIZE);
 
-        board.move(new Point(3, 1), new Point(3,0), 1);
+                board.testPiece(new Point(x, y));
+            }
 
-        System.out.println(board);
-        board.determineWinner();
-        System.out.println(board.getWinner());
+            System.out.println(board);
+            board.determineWinner();
+            System.out.println(board.getWinner());
+        }
     }
 }
