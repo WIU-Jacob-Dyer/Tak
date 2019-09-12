@@ -149,12 +149,12 @@ class Board{
 
     public String toString(){
         //KEY --------
-        // WHITE WALL = !
-        // WHITE ROAD = @
-        // WHITE CAPSTONE = #
-        // BLACK WALL = $
-        // BLACK ROAD = %
-        // BLACK CAPSTONE = &
+        // WHITE WALL = WW
+        // WHITE ROAD = WR
+        // WHITE CAPSTONE = WC
+        // BLACK WALL = BW
+        // BLACK ROAD = BR
+        // BLACK CAPSTONE = BC
         // EMPTY = "blank"
 
         StringBuilder builder = new StringBuilder();
@@ -181,19 +181,19 @@ class Board{
     private String getPieceString(TakPiece piece){
         if(piece.isWhite()){
             if(piece.isCapstone()){
-                return "#";
+                return "WC";
             } else if(piece.isWall()){
-                return "!";
+                return "WW";
             } else {
-                return "@";
+                return "WR";
             }
         } else {
             if(piece.isCapstone()){
-                return "&";
+                return "BC";
             } else if(piece.isWall()){
-                return "$";
+                return "BW";
             } else {
-                return "%";
+                return "BR";
             }
         }
     }
