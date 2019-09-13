@@ -77,7 +77,7 @@ class BOGOAI{
     }
 
     private boolean onBoardandValid(Point to, Point from){
-        if(to.x > 0 && to.y > 0 && to.x < board.size() && to.y < board.size()){
+        if(to.x > -1 && to.y > -1 && to.x < board.size() && to.y < board.size()){
             if(board.getStack(from).size() == 0){
                 return false;
             }
