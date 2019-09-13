@@ -18,7 +18,7 @@ class Board{
     private boolean whiteWins = false;
     private boolean blackWins = false;
 
-    private boolean playerTurn = true;
+    private boolean whiteTurn = true;
     //true = player1 (white) turn
     //false = player2 (black turn
 
@@ -81,7 +81,7 @@ class Board{
         }
     }
 
-    public void switchPlayer(){playerTurn = !playerTurn;}
+    public void switchPlayer(){whiteTurn = !whiteTurn;}
 
     /**
      *
@@ -96,16 +96,16 @@ class Board{
         // Is the space empty that we are trying to place
         if(getStack(point).size() > 0) return false;
         // Is the player trying to place the opponet's piece post turn 2
-        if(isWhite != playerTurn) return false;
+        if(isWhite != whiteTurn) return false;
         // Is the player trying to move their piece during the first 2 turns
         if(firstTwoTurnCounter < 2){
-            if(isWhite != !playerTurn) return false;
+            if(isWhite != !whiteTurn) return false;
         }
         // Checks to see if the player has the piece to place
-        if(playerTurn && isCapstone && isWhite && (whiteCapPool == 0)){return false;}
-        if(playerTurn && isWhite && (whitePool == 0)){return false;}
-        if(!playerTurn && isCapstone && !isWhite && (blackCapPool == 0)){return false;}
-        if(!playerTurn && !isWhite && (blackCapPool == 0)){return false;}
+        if(whiteTurn && isCapstone && isWhite && (whiteCapPool == 0)){return false;}
+        if(whiteTurn && isWhite && (whitePool == 0)){return false;}
+        if(!whiteTurn && isCapstone && !isWhite && (blackCapPool == 0)){return false;}
+        if(!whiteTurn && !isWhite && (blackCapPool == 0)){return false;}
         //----------------
         // END CONDITIONS
 
@@ -199,7 +199,7 @@ class Board{
         }
 
         // Is the player grabbing a stack in their control
-        if(startStack.top().isWhite() != playerTurn) return false;
+        if(startStack.top().isWhite() != whiteTurn) return false;
         //---------------
         // END CONDITIONS
 
