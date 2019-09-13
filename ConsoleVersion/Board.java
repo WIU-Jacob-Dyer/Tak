@@ -212,6 +212,20 @@ class Board{
         return true;
     }
 
+    /**
+     * return a point with x as the number of roads and y is the number of capstones
+     */
+    public Point whitePool(){
+        return new Point(whitePool, whiteCapPool);
+    }
+
+    /**
+     * return a point with x as the number of roads and y is the number of capstones
+     */
+    public Point whitePool(){
+        return new Point(blackPool, blackCapPool);
+    }
+
     public String toString(){
         //KEY --------
         // WHITE WALL = WW
