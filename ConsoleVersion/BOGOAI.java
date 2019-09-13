@@ -77,15 +77,12 @@ class BOGOAI{
     }
 
     private boolean onBoardandValid(Point to, Point from){
-        
-
         if(to.x > 0 && to.y > 0 && to.x < board.size() && to.y < board.size()){
-            if(board.getStack(to).size() == 0){
+            if(board.getStack(from).size() == 0){
                 return false;
             }
-            if(board.getStack(to).top().isWhite() == board.getStack(from).top().isWhite()){
-                return true;
-            }
+            
+            return true;
         }
         return false;
     }
@@ -144,8 +141,9 @@ class BOGOAI{
 
         for(int x = 0; x < board.size(); x++){
             for(int y = 0; y < board.size(); y++){
-                if(!board.getStack(new Point(x, y)).isEmpty()){
-                    if(board.getStack(new Point(x, y)).top().isWhite() == this.isWhite){
+                TakStack stack = board.getStack(new Point(x, y));
+                if(!stack.isEmpty()){
+                    if(stack.top().isWhite() == this.isWhite){
                         thingsIOwn.add(new Point(x,y));
                     }
                 }

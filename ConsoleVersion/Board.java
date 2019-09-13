@@ -27,6 +27,7 @@ class Board{
     private int whiteCapPool;
     private int blackPool;
     private int blackCapPool;
+    private int turn = 0;
 
     private final int SIZE;
 
@@ -101,11 +102,13 @@ class Board{
         // if(firstTwoTurnCounter < 2){
         //     if(isWhite != !whiteTurn) return false;
         // }
+
         // Checks to see if the player has the piece to place
         if(whiteTurn && isCapstone && isWhite && (whiteCapPool == 0)){return false;}
         if(whiteTurn && isWhite && (whitePool == 0)){return false;}
         if(!whiteTurn && isCapstone && !isWhite && (blackCapPool == 0)){return false;}
         if(!whiteTurn && !isWhite && (blackCapPool == 0)){return false;}
+
         //----------------
         // END CONDITIONS
 
@@ -123,12 +126,14 @@ class Board{
         if(!isWhite & isCapstone){blackCapPool--;}
         else if(!isWhite){blackPool--;}
 
+        turn++;
         return true;
     }
 
     // FOR TESTING ONYL ******************
     public void testPiece(Point p){
         getStack(p).add(new TakPiece(true, false, false));
+        turn++;
     }
 
     /**
@@ -209,6 +214,7 @@ class Board{
         // switch turns only if the player places a stack of depth = 1 (no possible additional moves)
         if (depth == 1) switchPlayer();
 
+        turn++;
         return true;
     }
 
@@ -284,6 +290,12 @@ class Board{
         return SIZE;
     }
 
+    /**
+     * @return the current turn
+     */
+    public int turn(){
+        return turn;
+    }
 
     public String getWinner(){
         if(whiteWins && blackWins){
@@ -341,7 +353,6 @@ class Board{
         return whiteWins || blackWins;
     }
 
-    // MUST FEED A BOGUS VALUE FOR PREVIOUS TO AVOID NULL REF on initial call
     private TakTree<TakPiece> treeBuilder(TakTree<TakPiece> tree, Point startingPoint, ArrayList<Point> visited){
         
         // JUST FINISHED ADDING NEW POINT CLASS
