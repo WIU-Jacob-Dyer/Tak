@@ -23,10 +23,10 @@ class Board{
     //false = player2 (black turn
 
     private int firstTwoTurnCounter = 0;
-    public int whitePool;
-    public int whiteCapPool;
-    public int blackPool;
-    public int blackCapPool;
+    private int whitePool;
+    private int whiteCapPool;
+    private int blackPool;
+    private int blackCapPool;
 
     private final int SIZE;
 
@@ -96,11 +96,11 @@ class Board{
         // Is the space empty that we are trying to place
         if(getStack(point).size() > 0) return false;
         // Is the player trying to place the opponet's piece post turn 2
-        if(isWhite != whiteTurn) return false;
-        // Is the player trying to move their piece during the first 2 turns
-        if(firstTwoTurnCounter < 2){
-            if(isWhite != !whiteTurn) return false;
-        }
+        // if(isWhite != whiteTurn) return false;
+        // // Is the player trying to move their piece during the first 2 turns
+        // if(firstTwoTurnCounter < 2){
+        //     if(isWhite != !whiteTurn) return false;
+        // }
         // Checks to see if the player has the piece to place
         if(whiteTurn && isCapstone && isWhite && (whiteCapPool == 0)){return false;}
         if(whiteTurn && isWhite && (whitePool == 0)){return false;}
