@@ -198,6 +198,13 @@ class Board{
         }
     }
 
+    /**
+     * @return the size of the board
+     */
+    public int size(){
+        return SIZE;
+    }
+
 
     public String getWinner(){
         if(whiteWins && blackWins){
