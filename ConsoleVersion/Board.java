@@ -18,10 +18,20 @@ class Board{
     private boolean whiteWins = false;
     private boolean blackWins = false;
 
+    private boolean playerTurn = true;
+    //true = player1 (white) turn
+    //false = player2 (black turn
+
+    private int firstTwoTurnCounter = 0;
+    public int whitePool;
+    public int whiteCapPool;
+    public int blackPool;
+    public int blackCapPool;
+
     private final int SIZE;
 
     /**
-     * 
+     *
      * @param size This determines the dimensions of the board
      */
 
@@ -30,6 +40,33 @@ class Board{
             SIZE = 5;
         } else {
             SIZE = size;
+        }
+
+        switch(SIZE) {
+            case 3:
+                whitePool = blackPool = 10;
+                whiteCapPool = blackCapPool = 0;
+                break;
+            case 4:
+                whitePool = blackPool = 15;
+                whiteCapPool = blackCapPool = 0;
+                break;
+            case 5:
+                whitePool = blackPool = 21;
+                whiteCapPool = blackCapPool = 1;
+                break;
+            case 6:
+                whitePool = blackPool = 30;
+                whiteCapPool = blackCapPool = 1;
+                break;
+            case 7:
+                whitePool = blackPool = 40;
+                whiteCapPool = blackCapPool = 2;
+                break;
+            case 8:
+                whitePool = blackPool = 50;
+                whiteCapPool = blackCapPool = 2;
+                break;
         }
 
         initStacks();
@@ -44,8 +81,10 @@ class Board{
         }
     }
 
+    public void switchPlayer(){playerTurn = !playerTurn;}
+
     /**
-     * 
+     *
      * @param white Is this piece white?
      * @param pos Array containing the position at which a piece is to be placed
      * @return Will return false if this move is not valid
@@ -56,12 +95,33 @@ class Board{
         //----------------
         // Is the space empty that we are trying to place
         if(getStack(point).size() > 0) return false;
+        // Is the player trying to place the opponet's piece post turn 2
+        if(isWhite != playerTurn) return false;
+        // Is the player trying to move their piece during the first 2 turns
+        if(firstTwoTurnCounter < 2){
+            if(isWhite != !playerTurn) return false;
+        }
+        // Checks to see if the player has the piece to place
+        if(playerTurn && isCapstone && isWhite && (whiteCapPool == 0)){return false;}
+        if(playerTurn && isWhite && (whitePool == 0)){return false;}
+        if(!playerTurn && isCapstone && !isWhite && (blackCapPool == 0)){return false;}
+        if(!playerTurn && !isWhite && (blackCapPool == 0)){return false;}
         //----------------
         // END CONDITIONS
 
         // Valid - move start operation
         // Add new piece to the stack
         getStack(point).add(new TakPiece(isWhite, isWall, isCapstone));
+        // Switch the player's turn
+        switchPlayer();
+        // Increment the firstTwoTurnCounter if it's the first 2 turns
+        if(firstTwoTurnCounter < 2) firstTwoTurnCounter++;
+        // Remove the piece placed from the pool
+        if(isWhite && isCapstone){whiteCapPool--;}
+        else if(isWhite){whitePool--;}
+
+        if(!isWhite & isCapstone){blackCapPool--;}
+        else if(!isWhite){blackPool--;}
 
         return true;
     }
@@ -72,7 +132,7 @@ class Board{
     }
 
     /**
-     * 
+     *
      * @param piece piece to place
      * @param pos Array containing the position at which a piece is to be placed
      * @return Will return false if this move is not valid
@@ -95,7 +155,7 @@ class Board{
     }
 
     /**
-     * 
+     *
      * @param posFrom The position we are moving from
      * @param posTo The position we should move the piece to
      * @param depth The number of pieces we are grabbing to move
@@ -137,12 +197,17 @@ class Board{
                 }
             }
         }
+
+        // Is the player grabbing a stack in their control
+        if(startStack.top().isWhite() != playerTurn) return false;
         //---------------
         // END CONDITIONS
-        
+
         // Valid move - start move operation
         // Add onto our position we would like to move to the difference of what we grab from the postion we move from**
         desStack.add(startStack.sub(depth));
+        // switch turns only if the player places a stack of depth = 1 (no possible additional moves)
+        if (depth == 1) switchPlayer();
 
         return true;
     }
