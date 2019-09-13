@@ -215,14 +215,14 @@ class Board{
     /**
      * return a point with x as the number of roads and y is the number of capstones
      */
-    public Point whitePool(){
+    public Point getWhitePool(){
         return new Point(whitePool, whiteCapPool);
     }
 
     /**
      * return a point with x as the number of roads and y is the number of capstones
      */
-    public Point whitePool(){
+    public Point getBlackPool(){
         return new Point(blackPool, blackCapPool);
     }
 

@@ -29,7 +29,7 @@ class BOGOAI{
 
     private void placePiece(){
         boolean piecePlaced = false;
-        if(boardIsNOTFull()){
+        if(boardIsNOTFull() && ((isWhite && board.getWhitePool().x > 0) || (!isWhite && board.getBlackPool().x > 0))){
             board.place(isWhite, false, false, pickRandomPoint(emptySpots()));
         } else {
             movePiece();
