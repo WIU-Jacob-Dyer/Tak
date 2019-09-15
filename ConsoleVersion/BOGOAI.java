@@ -28,7 +28,6 @@ class BOGOAI{
     }
 
     private void placePiece(){
-        boolean piecePlaced = false;
         if(boardIsNOTFull() && ((isWhite && board.getWhitePool().x > 0) || (!isWhite && board.getBlackPool().x > 0))){
             board.place(isWhite, false, false, pickRandomPoint(emptySpots()));
         } else {
@@ -43,8 +42,21 @@ class BOGOAI{
                 Point toTry = pickRandomPoint(ownedList);
                 ArrayList<Point> validMoves = validMovePoints(toTry);
                 if(validMoves.size() > 0){
-                    board.move(toTry, pickRandomPoint(validMoves), 1);
-                    return;
+                    int stackSize = board.getStack(toTry).size();
+                    Point moveTo = pickRandomPoint(validMoves);
+                    if( stackSize == 1){
+                        board.move(toTry, moveTo, 1);
+                        return;
+                    } else {
+                        int numToMove = (int)(rand.nextDouble() * stackSize);
+                        if(numToMove > board.size()){
+                            board.move(toTry, moveTo, board.size());
+                            return;
+                        } else {
+                            board.move(toTry, moveTo, numToMove);
+                            return;
+                        }
+                    }
                 }
             }
         } else{
