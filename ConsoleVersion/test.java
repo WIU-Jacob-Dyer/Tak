@@ -1,17 +1,27 @@
+import java.util.ArrayList;
+
 class test{
     public static void main(String[] args){
 
-        final int SIZE = 8;
-        Board board = new Board(SIZE);
-        BOGOAI player1 = new BOGOAI(board, true);
-        BOGOAI player2 = new BOGOAI(board, false);
+        ArrayList<String> s = new ArrayList<>();
 
-        while(!board.determineWinner()){
-            player1.makeMove();
-            player2.makeMove();
+        for(int i = 0; i < 10; i++){
+            final int SIZE = 8;
+            Board board = new Board(SIZE);
+            BOGOAI player1 = new BOGOAI(board, true);
+            BOGOAI player2 = new BOGOAI(board, false);
+
+            while(!board.determineWinner()){
+                player1.makeMove();
+                player2.makeMove();
+            }
+
+            System.out.println(board);
+            System.out.println(board.getWinner());
         }
 
-        System.out.println(board);
-        System.out.println(board.getWinner());
+        // for (String string : s) {
+            
+        // }
     }
 }
