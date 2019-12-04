@@ -29,8 +29,8 @@ class Board{
     private final int SIZE;
 
     /**
-     *
-     * @param size This determines the dimensions of the board
+     * Builds a new Board object which will store all of our board information.
+     * @param size This determines the dimensions of the board.
      */
 
     public Board(int size){
@@ -82,9 +82,11 @@ class Board{
     public void switchPlayer(){whiteTurn = !whiteTurn;}
 
     /**
-     *
-     * @param white Is this piece white?
-     * @param pos Array containing the position at which a piece is to be placed
+     * Creates a new TakPiece and attempts to place it on the board.
+     * @param isWhite Is this piece white?
+     * @param isWall Is this a wall being placed?
+     * @param isCapstone It this a Capstone?
+     * @param point Point containing the position at which a piece is to be placed
      * @return Will return false if this move is not valid
      */
 
@@ -134,9 +136,9 @@ class Board{
     }
 
     /**
-     *
-     * @param piece piece to place
-     * @param pos Array containing the position at which a piece is to be placed
+     * A helper function to move stacks around
+     * @param stack TakStack to place at position p
+     * @param p Point containing the position at which a piece is to be placed
      * @return Will return false if this move is not valid
      */
 
@@ -157,9 +159,9 @@ class Board{
     }
 
     /**
-     *
-     * @param posFrom The position we are moving from
-     * @param posTo The position we should move the piece to
+     * Moves up to 5 pieces as a stack from startP to desP
+     * @param startingP The position we are moving from
+     * @param desP The position we should move the piece to
      * @param depth The number of pieces we are grabbing to move
      * @return Will return false if this move is not valid
      */
@@ -229,6 +231,17 @@ class Board{
         return new Point(blackPool, blackCapPool);
     }
 
+    /**
+     * Print out the board with the given key
+     * KEY --------
+     * WHITE WALL = WW
+     * WHITE ROAD = WR
+     * WHITE CAPSTONE = WC
+     * BLACK WALL = BW
+     * BLACK ROAD = BR
+     * BLACK CAPSTONE = BC
+     * EMPTY = "blank"
+     */
     public String toString(){
         //KEY --------
         // WHITE WALL = WW
@@ -288,12 +301,15 @@ class Board{
     }
 
     /**
-     * @return the current turn
+     * @return the current turn count
      */
     public int turn(){
         return turn;
     }
 
+    /**
+     * Returns the currently stored winner values as a string.
+     */
     public String getWinner(){
         if(whiteWins && blackWins){
             return "ITS A DRAW";
@@ -306,14 +322,23 @@ class Board{
         }
     }
 
+    /**
+     * Return the top TakPiece given a Point p
+     */
     public TakPiece getTop(Point p){
         return stacks[p.x][p.y].top();
     }
 
+    /**
+     * Return the stack at Point p
+     */
     public TakStack getStack(Point p){
         return stacks[p.x][p.y];
     }
     
+    /**
+     * Returns true if a winner has been determined.
+     */
     public boolean determineWinner(){
         // search top down
         for(int x = 0; x < SIZE; x++){
