@@ -3,16 +3,22 @@ import java.util.ArrayList;
 class TakStack{
     private ArrayList<TakPiece> stack;
 
+    /**
+     * Creates new TakStack with empty stack.
+     */
     public TakStack(){
         stack = new ArrayList<>();
     }
 
+    /**
+     * Creates new stack starting with the passed stack as foundation.
+     */
     public TakStack(ArrayList<TakPiece> stack){
         this.stack = stack;
     }
 
     /**
-     * 
+     * Adds a stack to the top of this stack
      * @param toAdd The stack we want to push ontop of our stack
      */
 
@@ -29,7 +35,7 @@ class TakStack{
     // }
 
     /**
-     * 
+     * Place piece ontop of stack
      * @param piece The piece that will occupy this otherwise empty space
      */
 
@@ -38,7 +44,7 @@ class TakStack{
     }
 
     /**
-     * 
+     * Removes a chunk of the stack and returns it as a new stack in proper order.
      * @param depth The depth at which we will be removing pieces from this stack
      * @return The stack that was removed
      */
@@ -61,7 +67,7 @@ class TakStack{
     }
 
     /**
-     * 
+     * Peek at the top of the stack.
      * @return Returns the top piece of this stack - null if empty
      */
     public TakPiece top(){
@@ -69,17 +75,25 @@ class TakStack{
     }
 
     /**
-     * 
+     * Returns the ArrayList stack
      * @return This stack
      */
     public ArrayList<TakPiece> getStack(){
         return stack;
     }
 
+    /**
+     * Is the stack empty?
+     * @return empty?
+     */
     public boolean isEmpty(){
         return stack.size() == 0;
     }
 
+    /**
+     * How tall is the stack?
+     * @return Size of stack
+     */
     public int size(){
         return stack.size();
     }
