@@ -1,8 +1,5 @@
 
 import java.util.ArrayList;
-import java.util.List;
-
-
 
 class Board{
     // Our stacks will be laid out with x,y = 0,0 at the top left corner EX:
