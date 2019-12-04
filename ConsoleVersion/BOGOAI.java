@@ -10,11 +10,17 @@ class BOGOAI{
     private  double chanceToMove = 0.0;
     private Board board;
 
+    /**
+     * Creates new BOGOAI oon given board and player color.
+     */
     public BOGOAI(Board board, boolean isWhite){
         this.board = board;
         this.isWhite = isWhite;
     }
 
+    /**
+     * AI will either place a piece or move a piece or move a stack. Who knows what he will do.
+     */
     public void makeMove(){
         if(rand.nextDouble() > chanceToMove) {
             placePiece();
