@@ -1,37 +1,23 @@
-float scale = 1.0;
+
+import peasy.*;
+
+PeasyCam cam;
 
 void setup() {
-  size(640, 360, P3D);
+  size(200,200,P3D);
+  cam = new PeasyCam(this, 100);
+  cam.setMinimumDistance(50);
+  cam.setMaximumDistance(500);
 }
-
 void draw() {
-  scale += 0.1;
+  rotateX(-.5);
+  rotateY(-.5);
   background(0);
-  drawP();
-}
-
-void drawP(){
-  translate(width/2, height/2, 0);
-  stroke(255);
-  rotateX(PI/2 * scale);
-  rotateZ(-PI/6);
-  //noFill();
-  
-  beginShape();
-  vertex(-100, -100, -100);
-  vertex( 100, -100, -100);
-  vertex(   0,    0,  100);
-  
-  vertex( 100, -100, -100);
-  vertex( 100,  100, -100);
-  vertex(   0,    0,  100);
-  
-  vertex( 100, 100, -100);
-  vertex(-100, 100, -100);
-  vertex(   0,   0,  100);
-  
-  vertex(-100,  100, -100);
-  vertex(-100, -100, -100);
-  vertex(   0,    0,  100);
-  endShape();
+  fill(255,0,0);
+  box(30);
+  pushMatrix();
+  translate(0,0,20);
+  fill(0,0,255);
+  box(5);
+  popMatrix();
 }
