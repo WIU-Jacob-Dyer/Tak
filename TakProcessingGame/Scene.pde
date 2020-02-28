@@ -1,13 +1,9 @@
 class Scene {
     public String name;
-    public int windowWidth;
-    public int windowHeight;
     public boolean active;
     public SceneManager parent;
     
-    public Scene(String name, int windowWidth, int windowHeight, boolean active, SceneManager parent){
-      this.windowHeight = windowHeight;
-      this.windowWidth = windowWidth;
+    public Scene(String name, boolean active, SceneManager parent){
       this.name = name;
       this.active = active;
       this.parent = parent;

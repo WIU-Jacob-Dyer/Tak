@@ -2,8 +2,8 @@ class CircleTest extends Scene {
   
     private Button b = new Button(new PVector(width/4,height/2), new PVector(200, 0, 0), 1, "To Test");
 
-    public CircleTest(int windowWidth, int windowHeight, String name, boolean active, SceneManager parent){
-        super(name, windowWidth, windowHeight, active, parent);
+    public CircleTest(String name, boolean active, SceneManager parent){
+        super(name, active, parent);
     }
 
     @Override
