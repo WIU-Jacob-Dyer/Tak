@@ -18,11 +18,11 @@ class SceneManager{
     }
   }
 
-  public void setSceneActive(String sceneName){
+  public void enable(String sceneName){
     sceneMap.get(sceneName).active = true;
   }
   
-  public void setActive(String name){
-    sceneMap.get(name).active = true;
+  public void disable(String sceneName){
+    sceneMap.get(sceneName).active = false;
   }
 }

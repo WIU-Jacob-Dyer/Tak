@@ -16,7 +16,7 @@ class Scene {
     public void draw(){}
     
     public void swapTo(String sceneName){
-      this.active = false;
-      parent.setActive(sceneName);
+      parent.enable(sceneName);
+      parent.disable(this.name);
     }
 }
