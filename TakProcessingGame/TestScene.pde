@@ -1,6 +1,8 @@
 
 
 class TestScene extends Scene {
+  
+    private Button b = new Button(new PVector(width/2,height/2), new PVector(200, 0, 0), 1, "Back Scene");
 
     public TestScene(int windowWidth, int windowHeight, String name, boolean active, SceneManager parent){
         super(name, windowWidth, windowHeight, active, parent);
@@ -8,8 +10,16 @@ class TestScene extends Scene {
 
     @Override
     public void draw(){
-        translate(windowHeight / 2, windowWidth / 2, 0);
-        rectMode(CENTER);
-        rect(0,0,100,100);
+      background(200);
+      b.draw();
+      checkClicks();
+
+    }
+
+    void checkClicks(){
+      if(b.isClicked){
+        this.active = false;
+        parent.setActive("test");
+      }
     }
 }
