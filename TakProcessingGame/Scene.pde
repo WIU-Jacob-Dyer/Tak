@@ -15,6 +15,8 @@ class Scene {
     
     public void draw(){}
     
+    public void setup(){}
+    
     public void swapTo(String sceneName){
       this.active = false;
       parent.setActive(sceneName);

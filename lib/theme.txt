@@ -85,15 +85,16 @@ mode.outline.color = #3a505e
 # EDITOR - DETAILS
 
 # foreground and background colors
-editor.fgcolor = #000000
-editor.bgcolor = #ffffff
+editor.fgcolor = #eeeeee
+editor.bgcolor = #222222
+editor.linehighlight.color=#555555
 
 editor.gradient.top = #122535
 editor.gradient.bottom = #010305
 
 # highlight for the current line
-#editor.linehighlight.color=#e2e2e2
-editor.linehighlight.color=#ebfffd
+editor.linehighlight.color=#555555
+editor.linehighlight.color=#555555
 # highlight for the current line
 editor.linehighlight=true
 
