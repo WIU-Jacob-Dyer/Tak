@@ -6,11 +6,13 @@ class CircleTest extends Scene {
 
     @Override
     public void draw(){
-        circle(windowWidth / 2, windowHeight / 2, 50);
+      
+      background(200);
+      
+      textAlign(CENTER);
+        text("Butts", windowWidth / 2, windowHeight / 2, 64);
         
-        if (mousePressed){
-          swapTo("menu");
+
     }
 
   }
-}
