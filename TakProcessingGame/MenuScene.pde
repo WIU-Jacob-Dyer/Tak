@@ -1,7 +1,6 @@
 class MenuScene extends Scene {
 
     Header title; 
-      
     Button playButton;
   
   
