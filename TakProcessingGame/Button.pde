@@ -48,7 +48,7 @@ class Button {
     rect(pos.x, pos.y, buttonWidth, buttonHeight);
     
     fill(0);
-    text(text, pos.x, pos.y);
+    text(text, pos.x, pos.y - scale * 8);
   }
   
   private void checkHover(){

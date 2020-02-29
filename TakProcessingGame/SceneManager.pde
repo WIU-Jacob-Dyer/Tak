@@ -1,9 +1,12 @@
 import java.util.Map;
+import peasy.*;
 
 class SceneManager{
   private Map<String, Scene> sceneMap = new HashMap<String, Scene>();
+  public PeasyCam cam;
   
-  public SceneManager(){
+  public SceneManager(PeasyCam cam){
+    this.cam = cam;
   }
   
   public void addScene(Scene scene) {
