@@ -5,7 +5,7 @@ SceneManager manager;
 PeasyCam cam;
 
 void setup() {
-  frameRate(30);
+  frameRate(60);
   size(1280,720,P3D);
   
   cam = new PeasyCam(this, 100);

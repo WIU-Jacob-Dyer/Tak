@@ -10,14 +10,14 @@ class MenuScene extends Scene {
         
       playButton = new Button(new PVector(width/2, height/32 * 12), new PVector(0, 0, 255), 1, "Play");
       settingsButton = new Button(new PVector(width/2, height/32 * 16), new PVector(0, 100, 0), 1, "Settings");
-      exitButton = new Button(new PVector(width/2, height/32 * 20), new PVector(200, 0, 0), 1, "Exit");
+      exitButton = new Button(new PVector(width/32 * 30, height/32 * 31), new PVector(200, 0, 0), 0.4, "Exit");
       title = new Header("Tak The Game", "Arial", new PVector(width/2, height/8), new PVector(0,0,0), 70);
     }
     
 
     @Override
     public void draw(){       
-        background(200);
+        background(244, 236, 228);
         this.parent.cam.beginHUD();
         playButton.draw();
         settingsButton.draw();

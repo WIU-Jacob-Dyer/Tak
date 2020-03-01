@@ -9,14 +9,14 @@ class TestScene extends Scene {
   
   void draw() {
     cube();
-    this.parent.cam.beginHUD();
     hud();
-    this.parent.cam.endHUD();
   }
   
   void hud(){
+    this.parent.cam.beginHUD();
     backToMenuButton.draw();
     checkButtons();
+    this.parent.cam.endHUD();
   }
   
   void checkButtons(){
@@ -28,7 +28,7 @@ class TestScene extends Scene {
   void cube(){
     rotateX(-.5);
     rotateY(-.5);
-    background(0);
+    background(255);
     fill(255,0,0);
     box(30);
     pushMatrix();
