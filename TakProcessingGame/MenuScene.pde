@@ -31,6 +31,9 @@ class MenuScene extends Scene {
       if(playButton.isClicked){
         super.swapTo("Cube");
       }
+      if(settingsButton.isClicked){
+        super.swapTo("Settings");
+      }
       if(exitButton.isClicked){
         exit();
       }

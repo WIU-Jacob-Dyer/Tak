@@ -67,5 +67,9 @@ class Button {
       this.hover = false;
     }
   }
+  
+  public void setText(String text){
+    this.text = text;
+  }
 
 }
