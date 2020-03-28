@@ -9,7 +9,9 @@ class Button {
   private final float xScale = 0.26;
   private final float yScale = 0.093;
   
-  public boolean isClicked = false;
+  private boolean isClicked = false;
+  private boolean isHovered = false;
+  public boolean performAction = false;
   
   private String text;
   private PFont buttonFont;
@@ -40,7 +42,7 @@ class Button {
     
     checkHover();
     
-    if(hover){
+    if(isHovered){
       fill(buttonColor.x, buttonColor.y, buttonColor.z);
     } else {
       fill(buttonColor.x, buttonColor.y, buttonColor.z, alphaOnHover);
@@ -52,19 +54,21 @@ class Button {
   }
   
   private void checkHover(){
-    if(mouseX > pos.x - (buttonWidth/2) 
+    
+    this.isHovered = mouseX > pos.x - (buttonWidth/2) 
           && mouseX < pos.x + (buttonWidth/2) 
           && mouseY > pos.y - (buttonHeight/2) 
-          && mouseY < pos.y + (buttonHeight/2)){
-      if(mousePressed){
-        this.isClicked = true;
-      } else {
-        this.isClicked = false;
-      }
-      this.hover = true;
+          && mouseY < pos.y + (buttonHeight/2);
+          
+    if(this.isClicked && !mousePressed){
+      this.performAction = true;
+    }
+          
+    
+    if(this.isHovered && mousePressed){
+      this.isClicked = true;
     } else {
       this.isClicked = false;
-      this.hover = false;
     }
   }
   

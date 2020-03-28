@@ -28,13 +28,13 @@ class MenuScene extends Scene {
     }
     
     void checkButtons(){
-      if(playButton.isClicked){
+      if(playButton.performAction){
         super.swapTo("Cube");
       }
-      if(settingsButton.isClicked){
+      if(settingsButton.performAction){
         super.swapTo("Settings");
       }
-      if(exitButton.isClicked){
+      if(exitButton.performAction){
         exit();
       }
     }

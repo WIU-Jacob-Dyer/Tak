@@ -20,7 +20,7 @@ class CubeScene extends Scene {
   }
   
   void checkButtons(){
-    if(backToMenuButton.isClicked){
+    if(backToMenuButton.performAction){
       super.swapTo("Menu");
     }
   }

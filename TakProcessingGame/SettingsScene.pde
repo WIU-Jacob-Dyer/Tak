@@ -23,10 +23,10 @@ class SettingsScene extends Scene {
   }
   
   void checkClicks(){
-    if(backToMenuButton.isClicked){
+    if(backToMenuButton.performAction){
       super.swapTo("Menu");
     }
-    if(resolutionButton.isClicked){
+    if(resolutionButton.performAction){
       resolutionsList.next();
       surface.setSize(resolutionsList.currentWidth(), resolutionsList.currentHeight());
       resolutionButton = new Button(new PVector(width/10, height/16 * 2), new PVector(0, 0, 200), 0.5, resolutionsList.current().toString());

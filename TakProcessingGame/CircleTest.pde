@@ -15,7 +15,7 @@ class CircleTest extends Scene {
     }
 
     void checkClicks(){
-      if(b.isClicked){
+      if(b.performAction){
         super.swapTo("TestScene");
       }
     }
